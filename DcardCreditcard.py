@@ -44,14 +44,3 @@ for i in nalr:
             except:
                 with open(r'./DCTRY/article%s.txt' % (len(n)), 'a', encoding='utf-8') as f:
                     f.write(n.text+'\n')
-
-
-
-
-
-
-
-
-
-
-
