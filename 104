@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from my_fake_useragent import UserAgent
+import pandas as pd
 from urllib import request
 import os
 
@@ -21,7 +22,6 @@ resource_path = r'./jobsearch'
 if not os.path.exists(resource_path):
     os.mkdir(resource_path)
 """
-
 headers = {'User-Agent':str(random_header())}
 
 url = 'https://www.104.com.tw/jobs/search/?ro=0&kwop=7&keyword=%s&order=1&asc=0&page=%s&mode=s&jobsource=2018indexpoc'%('python',1)
@@ -30,11 +30,12 @@ soup = BeautifulSoup(req.text,'html.parser')
 title = soup.select('a[class="js-job-link"]')
 
 for i in title:
-    print(i.text)
-    print('https:' + i['href'])
+    #print(i.text)
+    #print('https:' + i['href'])
 
     job_html = 'https:' + i['href']
     job_req = requests.get(job_html,headers=headers)
     job_soup = BeautifulSoup(job_req.text, 'html.parser')
-    job_content = job_soup.select('section[class="info"]')
-    #for j in job_content:
+    job_content = job_soup.select('script[type="application/ld+json"]')[0]
+    for j in job_content:
+        print(j)
